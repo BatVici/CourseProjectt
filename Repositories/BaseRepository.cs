@@ -12,14 +12,14 @@ namespace Repositories
         where T : class
     {
 
-        protected StoryEntities Context;
+        protected StoresEntities Context;
 
         public BaseRepository()
-            : this(new StoryEntities())
+            : this(new StoresEntities())
         {
         }
 
-        public BaseRepository(StoryEntities context)
+        public BaseRepository(StoresEntities context)
         {
             Context = context;
         }

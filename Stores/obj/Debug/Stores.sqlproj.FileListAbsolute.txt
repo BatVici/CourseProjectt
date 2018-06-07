@@ -1,0 +1,6 @@
+C:\Users\Viktor\source\repos\CourseProject\Stores\bin\Debug\Stores.dacpac
+C:\Users\Viktor\source\repos\CourseProject\Stores\bin\Debug\Cars.dll
+C:\Users\Viktor\source\repos\CourseProject\Stores\bin\Debug\Cars.pdb
+C:\Users\Viktor\source\repos\CourseProject\Stores\obj\Debug\Cars.dll
+C:\Users\Viktor\source\repos\CourseProject\Stores\obj\Debug\Cars.pdb
+C:\Users\Viktor\source\repos\CourseProject\Stores\obj\Debug\Stores.sqlprojResolveAssemblyReference.cache

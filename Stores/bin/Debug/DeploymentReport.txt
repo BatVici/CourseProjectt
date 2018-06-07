@@ -1,0 +1,18 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Cities] (Table)
+       [dbo].[Stores] (Table)
+       [dbo].[Users] (Table)
+       [dbo].[FK_Stores_Cities] (Foreign Key)
+
+** Supporting actions
