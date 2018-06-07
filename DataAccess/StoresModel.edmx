@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StoresModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StoresModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cities">
           <Key>
             <PropertyRef Name="ID" />
@@ -19,6 +19,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="City" Type="int" Nullable="false" />
+          <Property Name="Desciption" Type="nchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -52,8 +53,7 @@
             <End Role="Stores" EntitySet="Stores" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StoresModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -63,16 +63,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Stores" Relationship="Self.FK_Stores_Cities" FromRole="Cities" ToRole="Stores" />
-        </EntityType>
-        <EntityType Name="Store">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="City" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="StoreCity" Relationship="Self.FK_Stores_Cities" FromRole="Stores" ToRole="Cities" />
+          <NavigationProperty Name="Stores" Relationship="StoresModel.FK_Stores_Cities" FromRole="City" ToRole="Store" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -83,29 +74,39 @@
           <Property Name="PasswordHash" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PasswordSalt" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityContainer Name="StoresEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Stores" EntityType="StoresModel.Store" />
+          <AssociationSet Name="FK_Stores_Cities" Association="StoresModel.FK_Stores_Cities">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="Int32" Nullable="false" />
+          <Property Name="Desciption" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="StoreCity" Relationship="StoresModel.FK_Stores_Cities" FromRole="Store" ToRole="City" />
+        </EntityType>
         <Association Name="FK_Stores_Cities">
-          <End Role="Cities" Type="Self.City" Multiplicity="1">
+          <End Type="StoresModel.City" Role="City" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Stores" Type="Self.Store" Multiplicity="*" />
+          <End Type="StoresModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Cities">
+            <Principal Role="City">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Stores">
+            <Dependent Role="Store">
               <PropertyRef Name="City" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="StoresEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Cities" EntityType="Self.City" />
-          <EntitySet Name="Stores" EntityType="Self.Store" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_Stores_Cities" Association="Self.FK_Stores_Cities">
-            <End Role="Cities" EntitySet="Cities" />
-            <End Role="Stores" EntitySet="Stores" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -120,15 +121,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Stores">
-            <EntityTypeMapping TypeName="StoresModel.Store">
-              <MappingFragment StoreEntitySet="Stores">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="City" ColumnName="City" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="StoresModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -136,6 +128,16 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="StoresModel.Store">
+              <MappingFragment StoreEntitySet="Stores">
+                <ScalarProperty Name="Desciption" ColumnName="Desciption" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

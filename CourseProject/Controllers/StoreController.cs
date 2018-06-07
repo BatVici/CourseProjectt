@@ -58,6 +58,7 @@ namespace CourseProject.Controllers
             if (store == null) store = new Store();
             store.Name = model.Name;
             store.City = model.CityID;
+            store.Desciption = model.Description;
             repo.Save(store);
             return RedirectToAction("Edit");
 

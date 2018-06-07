@@ -6,9 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="40e2f59020334bffac7ba3689013afd0" Name="Diagram1">
         <EntityTypeShape EntityType="StoresModel.City" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="StoresModel.Store" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="StoresModel.User" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <AssociationConnector Association="StoresModel.FK_Stores_Cities" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StoresModel.Store" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="StoresModel.FK_Stores_Cities" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

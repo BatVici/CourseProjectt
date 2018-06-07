@@ -12,6 +12,7 @@ namespace CourseProject.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public int CityID { get; set; }
+        public string Description { get; set; }
         public City StoreCity { get; set; }
 
         public StoresViewModel(Store store)
@@ -20,6 +21,7 @@ namespace CourseProject.Models
             Name = store.Name;
             CityID = store.City;
             StoreCity = store.StoreCity;
+            Description = store.Desciption;
 
         }
 
@@ -32,6 +34,7 @@ namespace CourseProject.Models
         public string Name { get; set; }
         public int CityID { get; set; }
         public City StoreCity { get; set; }
+        public string Description { get; set; }
         public List<StoresViewModel> storeList;
 
         public StoreViewModel()
@@ -45,6 +48,7 @@ namespace CourseProject.Models
             Name = store.Name;
             CityID = store.City;
             StoreCity = store.StoreCity;
+            Description = store.Desciption;
         }
 
 

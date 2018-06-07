@@ -17,6 +17,7 @@ namespace DataAccess
         public int ID { get; set; }
         public string Name { get; set; }
         public int City { get; set; }
+        public string Desciption { get; set; }
     
         public virtual City StoreCity { get; set; }
     }

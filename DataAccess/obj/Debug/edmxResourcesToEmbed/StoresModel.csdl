@@ -6,16 +6,7 @@
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Stores" Relationship="Self.FK_Stores_Cities" FromRole="Cities" ToRole="Stores" />
-  </EntityType>
-  <EntityType Name="Store">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="City" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="StoreCity" Relationship="Self.FK_Stores_Cities" FromRole="Stores" ToRole="Cities" />
+    <NavigationProperty Name="Stores" Relationship="StoresModel.FK_Stores_Cities" FromRole="City" ToRole="Store" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -26,27 +17,37 @@
     <Property Name="PasswordHash" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="PasswordSalt" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
+  <EntityContainer Name="StoresEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="Self.City" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Stores" EntityType="StoresModel.Store" />
+    <AssociationSet Name="FK_Stores_Cities" Association="StoresModel.FK_Stores_Cities">
+      <End Role="City" EntitySet="Cities" />
+      <End Role="Store" EntitySet="Stores" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Store">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="Int32" Nullable="false" />
+    <Property Name="Desciption" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="StoreCity" Relationship="StoresModel.FK_Stores_Cities" FromRole="Store" ToRole="City" />
+  </EntityType>
   <Association Name="FK_Stores_Cities">
-    <End Role="Cities" Type="Self.City" Multiplicity="1">
+    <End Type="StoresModel.City" Role="City" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="Stores" Type="Self.Store" Multiplicity="*" />
+    <End Type="StoresModel.Store" Role="Store" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Cities">
+      <Principal Role="City">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="Stores">
+      <Dependent Role="Store">
         <PropertyRef Name="City" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="StoresEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Cities" EntityType="Self.City" />
-    <EntitySet Name="Stores" EntityType="Self.Store" />
-    <EntitySet Name="Users" EntityType="Self.User" />
-    <AssociationSet Name="FK_Stores_Cities" Association="Self.FK_Stores_Cities">
-      <End Role="Cities" EntitySet="Cities" />
-      <End Role="Stores" EntitySet="Stores" />
-    </AssociationSet>
-  </EntityContainer>
 </Schema>

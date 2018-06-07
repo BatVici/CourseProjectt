@@ -14,6 +14,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="City" Type="int" Nullable="false" />
+    <Property Name="Desciption" Type="nchar" MaxLength="200" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>

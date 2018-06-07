@@ -26,7 +26,7 @@ namespace DataAccess
         }
     
         public virtual DbSet<City> Cities { get; set; }
-        public virtual DbSet<Store> Stores { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Store> Stores { get; set; }
     }
 }

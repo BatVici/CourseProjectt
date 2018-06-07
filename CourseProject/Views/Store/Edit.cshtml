@@ -25,6 +25,7 @@
             <th>Name</th>
             <th>CityID</th>
             <th>City</th>
+            <th>Description</th>
             <th></th>
             <th></th>
         </tr>
@@ -40,6 +41,7 @@
             <td>@store.Name</td>
             <td>@store.CityID</td>
             <td>@store.StoreCity.Name</td>
+            <td>@store.Description</td>
             @if (LoginUserSession.Current.IsAdministrator)
             {
             <td>@Html.ActionLink("Edit", "EditStore", "Store", new { id = store.ID }, new { @class = "btn btn-primary btn-sm" })</td>
