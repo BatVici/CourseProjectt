@@ -7,7 +7,7 @@ using DataAccess;
 
 namespace Repositories
 {
-    class StoreRepository : BaseRepository<Store>
+    public class StoreRepository : BaseRepository<Store>
     {
 
         public override void Save(Store store)

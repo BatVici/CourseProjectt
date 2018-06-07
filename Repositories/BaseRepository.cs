@@ -11,25 +11,11 @@ namespace Repositories
     public abstract class BaseRepository<T> : IBaseRepository<T>
         where T : class
     {
-
-        protected StoresEntities Context;
+        private StoresEntities Context;
 
         public BaseRepository()
-            : this(new StoresEntities())
         {
-        }
-
-        public BaseRepository(StoresEntities context)
-        {
-            Context = context;
-        }
-
-        protected DbSet<T> DBSet
-        {
-            get
-            {
-                return Context.Set<T>();
-            }
+            Context = new StoresEntities();
         }
 
         public List<T> GetAll()
@@ -43,6 +29,7 @@ namespace Repositories
         public void Create(T item)
         {
             Context.Set<T>().Add(item);
+            Context.SaveChanges();
         }
         public void Update(T item, Func<T, bool> findByIDPredecate)
         {
@@ -54,25 +41,32 @@ namespace Repositories
                 Context.Entry(local).State = EntityState.Detached;
             }
             Context.Entry(item).State = EntityState.Modified;
-        }
 
-        public void Delete(T obj)
-        {
-            if (obj != null)
-            {
-                Context.Set<T>().Remove(obj);
-            }
+            //    Context.Entry(category).State = EntityState.Modified;
+            //var entry = Context.Entry(category);
+            //Context.Categories.Attach(category);
+            //entry.State = EntityState.Modified;
+            Context.SaveChanges();
         }
-
-        public void DeleteByID(int id)
+        public virtual bool DeleteByID(int id)
         {
+            bool isDeleted = false;
             T dbItem = Context.Set<T>().Find(id);
             if (dbItem != null)
             {
                 Context.Set<T>().Remove(dbItem);
+                int recordsChanged = Context.SaveChanges();
+                isDeleted = recordsChanged > 0;
+            }
+            return isDeleted;
+        }
+        protected DbSet<T> DBSet
+        {
+            get
+            {
+                return Context.Set<T>();
             }
         }
-
         public abstract void Save(T item);
     }
 }

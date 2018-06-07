@@ -7,7 +7,7 @@ using DataAccess;
 
 namespace Repositories
 {
-    class CityRepository : BaseRepository<City>
+    public class CityRepository : BaseRepository<City>
     {
 
         public override void Save(City city)

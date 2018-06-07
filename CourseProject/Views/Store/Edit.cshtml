@@ -1,0 +1,55 @@
+﻿@model CourseProject.Models.StoreViewModel
+@using CourseProject.Helpers
+@using CourseProject.Models
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Stores</h2>
+
+<div class="table-actions">
+    @if (LoginUserSession.Current.IsAdministrator)
+    {
+    @Html.ActionLink("Add New City", "EditStore", "Store", null, new { @class = "btn btn-primary btn-sm" })
+    }
+
+
+</div>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>CityID</th>
+            <th>City</th>
+            <th></th>
+            <th></th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (StoresViewModel store in Model.storeList)
+        {
+        <tr>
+            <td>@store.ID</td>
+            <td>@store.Name</td>
+            <td>@store.CityID</td>
+            <td>@store.StoreCity.Name</td>
+            @if (LoginUserSession.Current.IsAdministrator)
+            {
+            <td>@Html.ActionLink("Edit", "EditStore", "Store", new { id = store.ID }, new { @class = "btn btn-primary btn-sm" })</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Store", new { id = store.ID }, new { onclick = "return confirm('Are you sure you want to delete this store?');", @class = "btn btn-danger btn-sm" })</td>
+            }
+
+        </tr>
+        }
+
+    </tbody>
+
+</table>
+
